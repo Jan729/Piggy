@@ -1,4 +1,5 @@
 import java.util.Scanner;
+//Project from high school AP Comp Sci course
 
 public class Piggy {
 
