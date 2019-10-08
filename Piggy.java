@@ -2,208 +2,123 @@ import java.util.Scanner;
 //Project from high school AP Comp Sci course
 
 public class Piggy {
-
+		static void swapPlayer(int player) {
+   			if (player == 0)
+				return 1;
+			else
+				return 0;
+  		}
+		
+		static void printPoints(int player, int points) {
+			System.out.println("P"+ (currentP + 1) +"'s Total Points: " + points +"\n\n");
+		}
+	
 		public static void main(String[] args) {
-	Scanner scan = new Scanner (System.in);
+			Scanner scan = new Scanner (System.in);
 			
-			int player = 1;
+			int currentP = 0; //0 if it's player 1's turn, 1 if it's player 2's turn
+			int player[] = {1, 2};
 			boolean game = true;
 			
-			int roundPts1 = 0;
-			int total1 = 0;
-			int roundPts2 = 0;
-			int total2 = 0;
+			int roundPts[] = {0, 0};
+			int totalPts[] = {0, 0};
 			
-			int roll1;
-			int roll2;
-			int roll3;
-			int roll4;
+			int roll[4]; //player rolls two dice at a time
 			
-			System.out.println("Pig");
+			System.out.println("Welcome to Piggy!");
 			System.out.println("\nHow to Play:\nRoll the two dice to get points.");
-			System.out.println("You can either keep rolling (1), or pass the dice to the next player (0).");
+			System.out.println("You can either keep rolling (Enter 1), or pass the dice to the next player (Enter 0).");
 			System.out.println("BUT if you roll a SINGLE six, you lose all your points for that round.");
 			System.out.println("And if you roll DOUBLE sixes, you lose ALL of your total points!");
-			System.out.println("First player to 100 points wins!");
+			System.out.println("First player to 100 points wins!\n");
 			
 			while (game == true) {
 		
-			if (player == 1) {
-			System.out.println("\nPlayer 1's turn. (Press enter to roll)");
-			scan.nextLine();
-			
-			roll1 = (int)(Math.random()*(5)+1); 
-			roll2 = (int)(Math.random()*(5)+1);
-
-			roundPts1 += roll1 + roll2;
-			
-			System.out.println(roll1 +", " +roll2 +" -> " +(roll1 + roll2) +"\n"); // show rolls
-			
-			if (roundPts1 + total1 >= 100) {
-				total1 += roundPts1;
-				System.out.println("P1's Total Points: " +total1 +"\nP1 wins!");
-				game = false;
-				player = 0;
-				break;
-			}
-			
-			System.out.println("P1's round points: " +roundPts1); //show round points
-			
-			System.out.println("Roll again (Press 1) or pass (Press 0)?"); //pass or roll again?
-			while (!scan.hasNextInt()) {
-				System.out.println("That's not 0 or 1! Roll again (Press 1) or pass (Press 0)?");
-				scan.next();
-			}
-			int	reRoll = scan.nextInt();
-			
-			if (reRoll == 0) { //switch player
-				total1 += roundPts1; //add roundPts to total
-				roundPts1 = 0;
-				System.out.println("P1's Total Points: " +total1 +"\n\n");
-				player = 2;
-			}
-			
-			while (reRoll == 1) { //to keep rolling as player 1
-				roll3 = (int)(Math.random()*(6)+1);
-				roll4 = (int)(Math.random()*(6)+1);
-			
-				System.out.print(roll3 +", " +roll4 +" -> "); //show rolls
-				
-				roundPts1 += roll3 + roll4;
-				
-				if (roll3 == 6 && roll4 == 6) { // if rolled double 6
-					roundPts1 = 0;
-					total1 = 0;
-					System.out.println("You lost all of your points!!");
-					System.out.println("P1's Total Points: " +total1 +"\n\n");
-					player = 2;
-					break;
-				}
-				
-				if (roll3 == 6 || roll4 == 6) { // if rolled one six
-					roundPts1 = 0;
-					System.out.println("You lost all your round points!");
-					System.out.println("P1's Total Points: " +total1 +"\n\n");
-					player = 2;
-					break;
-				}
-				
-				System.out.print((roll3 + roll4) +"\n"); //extra formatting
-				System.out.println("P1's round points: " +roundPts1);//display points
-				
-				if (roundPts1 + total1 >= 100) { //if p1 wins
-					total1 += roundPts1;
-					System.out.println("P1's total points: " + total1 + "\nP1 wins!");
-					game = false;
-					player = 0;
-					break;
-				}
-				
-				System.out.println("Roll again (Press 1) or pass (Press 0)?"); //pass?
-				while (!scan.hasNextInt()) {
-					System.out.println("That's not 0 or 1! Roll again (Press 1) or pass (Press 0)?");
-					scan.next();
-				}
-				reRoll = scan.nextInt();
-				
-				if (reRoll == 0) {
-					total1 += roundPts1;
-					roundPts1 = 0;
-					System.out.println("P1's Total Points: " +total1 +"\n\n");
-					player = 2;
-				}
-			} //while ends
-				
-			} //if player 1
-				
-			if(player == 2) {
-				
-				System.out.println("\nPlayer 2's turn. (Press enter to roll)"); //EDIT TEXT
+				System.out.println("\nPlayer " + player[currentP] + "'s turn. (Press enter to roll)");
 				scan.nextLine();
-				
-				roll1 = (int)(Math.random()*(5)+1);
-				roll2 = (int)(Math.random()*(5)+1);
 			
-				roundPts2 += roll1 + roll2;
-				
-				System.out.println(roll1 +", " +roll2 +" -> " +(roll1 + roll2) +"\n"); 
-				
-				if (roundPts2 + total2 >= 100) {
-					total2 += roundPts2;
-					System.out.println("P2's Total Points: " +total2 +"\nP2 wins!");
+				roll[0] = (int)(Math.random()*(5)+1); 
+				roll[1] = (int)(Math.random()*(5)+1);
+
+				roundPts[currentP] += roll[0] + roll[1];
+			
+				System.out.println(roll[0] +", " +roll[1] +" -> You rolled " +(roll[0] + roll[1]) +"\n"); // show rolls
+			
+				if (roundPts[currentP] + totalPts[currentP] >= 100) {
+					total[currentP] += roundPts[currentP];
+					System.out.println("Player "+ (currentP + 1) +"'s Total Points: " +totalPts[currentP] +"\nPlayer "+ (currentP + 1) +" wins!");
 					game = false;
 					player = 0;
 					break;
 				}
-				
-				System.out.println("P2's round points: " +roundPts2); //display rolls
-				
-				System.out.println("Roll again (Press 1) or pass (Press 0)?"); //pass?
+			
+				System.out.println("Player "+ (currentP + 1) +"'s round points: " +roundPts[currentP]); //show round points
+			
+				System.out.println("Roll again (Press any number) or pass (Press 0)?"); //pass or roll again?
 				while (!scan.hasNextInt()) {
 					System.out.println("That's not 0 or 1! Roll again (Press 1) or pass (Press 0)?");
 					scan.next();
 				}
-				int	reRoll = scan.nextInt();
-				
-				if (reRoll == 0) { // switch player
-					total2 += roundPts2;
-					roundPts2 = 0;
-					System.out.println("P2's Total Points: " +total2 +"\n\n");
-					player = 1;
+				int reRoll = scan.nextInt();
+			
+				if (reRoll == 0) { //switch player
+					total[currentP] += roundPts[currentP]; //add roundPts to total
+					roundPts[currentP] = 0;
+					printPoints(currentP, totalPts[currentP]);
+					currentP = swapPlayer(currentP);
 				}
 			
-				while (reRoll == 1) { //player 2
-					roll3 = (int)(Math.random()*(6)+1);
-					roll4 = (int)(Math.random()*(6)+1);
-
-					System.out.print(roll3 +", " +roll4 +" -> ");
-					
-					roundPts2 += roll3 + roll4;
-
-					if (roll3 == 6 && roll4 == 6) {
-						roundPts2 = 0;
-						total2 = 0;
+				while (reRoll == 1) { //to keep rolling as player 1
+					roll[2] = (int)(Math.random()*(6)+1);
+					roll[3] = (int)(Math.random()*(6)+1);
+			
+					System.out.print(roll[2] +", " +roll[3] +" -> You rolled " + (roll[2] + roll[3]) + "\n"); //show rolls
+				
+					roundPts[currentP] += roll[2] + roll[3];
+				
+					if (roll[2] == 6 && roll[3] == 6) { // if rolled double 6
+						roundPts[currentP] = 0;
+						totalPts[currentP] = 0;
 						System.out.println("You lost all of your points!!");
-						System.out.println("P2's Total Points: " +total2 +"\n\n");
-						player = 1;
+						printPoints(currentP, totalPts[currentP]);
+						currentP = swapPlayer(currentP);
 						break;
 					}
-					
-					if (roll3 == 6 || roll4 == 6) {
-						roundPts2 = 0;
+				
+					if (roll[2] == 6 || roll[3] == 6) { // if rolled one six
+						roundPts[currentP] = 0;
 						System.out.println("You lost all your round points!");
-						System.out.println("P2's Total Points: " +total2 +"\n\n");
-						player = 1;
+						printPoints(currentP, totalPts[currentP]);
+						currentP = swapPlayer(currentP);
 						break;
 					}
-					
-					System.out.print((roll3 + roll4) +"\n");
-					System.out.println("P2's round points: " +roundPts2);
-					
-					if (roundPts2 + total2 >= 100) {
-						total2 += roundPts2;
-						System.out.println("P2's total points: " + total2 +"\nP2 wins!");
+				
+					System.out.print((roll[2] + roll[3]) +"\n"); //extra formatting
+					System.out.println("P"+ (currentP + 1) +"'s round points: " +roundPts[currentP]);//display points
+				
+					if (roundPts[currentP] + totalPts[currentP] >= 100) { //if player wins
+						totalPts[currentP] += roundPts[currentP];
+						printPoints(currentP, totalPts[currentP]);
+						System.out.println("\nPlayer"+ (currentP + 1) +" wins!");
 						game = false;
-						player = 0;
+						currentP = swapPlayer(currentP);
 						break;
 					}
-					
+				
 					System.out.println("Roll again (Press 1) or pass (Press 0)?"); //pass?
 					while (!scan.hasNextInt()) {
-						System.out.println("That's not 0 or 1! Roll again (Press 1) or pass (Press 0)?");
+						System.out.println("That's not a number! Roll again (Press any number) or pass (Press 0)?");
 						scan.next();
 					}
 					reRoll = scan.nextInt();
-					
+				
 					if (reRoll == 0) {
-						total2 += roundPts2;
-						roundPts2 = 0;
-						System.out.println("P2's Total Points: " +total2 +"\n\n");
-						player = 1;
+						totalPts[currentP] += roundPts[currentP];
+						roundPts[currentP] = 0;
+						printPoints(currentP, totalPts[currentP]);
+						currentP = swapPlayer(currentP);
 					}
-				}
-					
-				}
+				} //while rerolling
 			
 			} //game true
 			
