@@ -2,7 +2,7 @@ import java.util.Scanner;
 //Project from high school AP Comp Sci course
 
 public class Piggy {
-		static void swapPlayer(int player) {
+		static int swapPlayer(int player) {
    			if (player == 0)
 				return 1;
 			else
@@ -10,7 +10,7 @@ public class Piggy {
   		}
 		
 		static void printPoints(int player, int points) {
-			System.out.println("P"+ (currentP + 1) +"'s Total Points: " + points +"\n\n");
+			System.out.println("P"+ (player + 1) +"'s Total Points: " + points +"\n\n");
 		}
 	
 		public static void main(String[] args) {
@@ -23,7 +23,7 @@ public class Piggy {
 			int roundPts[] = {0, 0};
 			int totalPts[] = {0, 0};
 			
-			int roll[4]; //player rolls two dice at a time
+			int []roll = new int[4]; //player rolls two dice at a time
 			
 			System.out.println("Welcome to Piggy!");
 			System.out.println("\nHow to Play:\nRoll the two dice to get points.");
@@ -42,27 +42,26 @@ public class Piggy {
 
 				roundPts[currentP] += roll[0] + roll[1];
 			
-				System.out.println(roll[0] +", " +roll[1] +" -> You rolled " +(roll[0] + roll[1]) +"\n"); // show rolls
+				System.out.println(roll[0] +", " +roll[1] +" -> You rolled " +(roll[0] + roll[1]) +"\n");
 			
 				if (roundPts[currentP] + totalPts[currentP] >= 100) {
-					total[currentP] += roundPts[currentP];
-					System.out.println("Player "+ (currentP + 1) +"'s Total Points: " +totalPts[currentP] +"\nPlayer "+ (currentP + 1) +" wins!");
+					totalPts[currentP] += roundPts[currentP];
+					System.out.println("Player "+  player[currentP] +"'s Total Points: " +totalPts[currentP] +"\nPlayer "+ (currentP + 1) +" wins!");
 					game = false;
-					player = 0;
 					break;
 				}
 			
-				System.out.println("Player "+ (currentP + 1) +"'s round points: " +roundPts[currentP]); //show round points
+				System.out.println("Player "+  player[currentP] +"'s round points: " +roundPts[currentP]);
 			
-				System.out.println("Roll again (Press any number) or pass (Press 0)?"); //pass or roll again?
+				System.out.println("Roll again (Enter 1) or pass (Enter 0)?");
 				while (!scan.hasNextInt()) {
-					System.out.println("That's not 0 or 1! Roll again (Press 1) or pass (Press 0)?");
+					System.out.println("That's not 0 or 1! Roll again (Enter 1) or pass (Enter 0)?");
 					scan.next();
 				}
 				int reRoll = scan.nextInt();
 			
 				if (reRoll == 0) { //switch player
-					total[currentP] += roundPts[currentP]; //add roundPts to total
+					totalPts[currentP] += roundPts[currentP]; //add roundPts to total
 					roundPts[currentP] = 0;
 					printPoints(currentP, totalPts[currentP]);
 					currentP = swapPlayer(currentP);
@@ -94,7 +93,7 @@ public class Piggy {
 					}
 				
 					System.out.print((roll[2] + roll[3]) +"\n"); //extra formatting
-					System.out.println("P"+ (currentP + 1) +"'s round points: " +roundPts[currentP]);//display points
+					System.out.println("P"+  player[currentP] +"'s round points: " +roundPts[currentP]);//display points
 				
 					if (roundPts[currentP] + totalPts[currentP] >= 100) { //if player wins
 						totalPts[currentP] += roundPts[currentP];
@@ -105,9 +104,9 @@ public class Piggy {
 						break;
 					}
 				
-					System.out.println("Roll again (Press 1) or pass (Press 0)?"); //pass?
+					System.out.println("Roll again (Enter 1) or pass (Enter 0)?"); //pass?
 					while (!scan.hasNextInt()) {
-						System.out.println("That's not a number! Roll again (Press any number) or pass (Press 0)?");
+						System.out.println("That's not a number! Roll again (Enter any number) or pass (Enter 0)?");
 						scan.next();
 					}
 					reRoll = scan.nextInt();
@@ -121,7 +120,9 @@ public class Piggy {
 				} //while rerolling
 			
 			} //game true
-			
+			int winner = totalPts[0] >= 100 ? 0 : 1;
+			System.out.println("Player "+  player[winner] +" wins!!");
+			scan.close();
 		}
 
 	}
